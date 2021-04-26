@@ -12,7 +12,6 @@ SOURCES += \
         check_uii.cpp \
         json_objects.cpp \
         main.cpp \
-        output.cpp \
         ws_client.cpp
 
 # Default rules for deployment.
@@ -23,5 +22,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     check_uii.h \
     json_objects.h \
-    output.h \
     ws_client.h

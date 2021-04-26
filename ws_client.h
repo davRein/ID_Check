@@ -3,7 +3,6 @@
 
 #include "json_objects.h"
 #include "check_uii.h"
-#include "output.h"
 #include <QtCore/QObject>
 #include <QtWebSockets/QWebSocket>
 #include <QString>
@@ -29,11 +28,10 @@ private:
     QWebSocket m_webSocket_dummyGate;
     QWebSocket m_webSocket_dummyIO_Control;
     QUrl m_url;
-    bool m_debug;
+    bool m_debug = false;
     bool isConnected;
     JSON_Objects obj;
     Check_UII chck;
-    Output out;
 };
 
 #endif // WS_CLIENT_H
