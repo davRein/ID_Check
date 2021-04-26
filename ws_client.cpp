@@ -30,7 +30,7 @@ WS_Client::WS_Client(const QUrl &url, bool debug, QObject *parent) :
 //! SLOT to connect to the dummy gate app on the server
 void WS_Client::onConnected_dummyGate()
 {
-    m_webSocket_dummyGate.sendTextMessage(obj.readJsonFile(obj.getFn_dir() + obj.getFn_ID_0_Send_gate()));
+    m_webSocket_dummyGate.sendTextMessage(protocols.createJson_method_use_gate(nId));
     if (m_debug){
         qDebug() << "WebSocket dummyGate connected";
     }
@@ -42,7 +42,7 @@ void WS_Client::onConnected_dummyGate()
 //! SLOT to connect to the dummy IO Control app on the server
 void WS_Client::onConnected_dummyIO_Control()
 {
-    m_webSocket_dummyIO_Control.sendTextMessage(obj.readJsonFile(obj.getFn_dir() + obj.getFn_ID_0_Send_ioControl()));
+    m_webSocket_dummyIO_Control.sendTextMessage(protocols.createJson_method_use_IO_COntrol(nId));
     if (m_debug){
         qDebug() << "WebSocket dummyIO Control connected";
         qDebug() << "----------------------------------------\n";

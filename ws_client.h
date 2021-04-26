@@ -3,6 +3,7 @@
 
 #include "json_objects.h"
 #include "check_uii.h"
+#include "jsonprotocols.h"
 #include <QtCore/QObject>
 #include <QtWebSockets/QWebSocket>
 #include <QString>
@@ -32,6 +33,10 @@ private:
     bool isConnected;
     JSON_Objects obj;
     Check_UII chck;
+    JsonProtocols protocols;
+
+    // TMP
+    int nId = 1;
 };
 
 #endif // WS_CLIENT_H

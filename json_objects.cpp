@@ -8,21 +8,6 @@ JSON_Objects::JSON_Objects()
 }
 //! [constructor]
 
-//! [readJsonFile]
-//! Opens and reads a JSON file
-//! @param filename: directory/filename
-//! @returns val: JSON file as QString
-QString JSON_Objects::readJsonFile(const QString &filename){
-    QString val;
-    QFile file;
-    file.setFileName(filename);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    val = file.readAll();
-    file.close();
-
-    return val;
-}
-//! [readJsonFile]
 
 //! [readGateEvent]
 //! Parses the JSON gateEvent and returns the UII
@@ -43,26 +28,6 @@ int JSON_Objects::readGateEvent(QString &gateEvent){
 }
 //! [readGateEvent]
 
-//! [setOutput]
-//! Sets the params value and name for the setOutput JSON method
-//! @param value: true or false, depends on read UII
-//! @param name: name of the result after reading the gateEvent -> green, yellow or red
-//! @returns result: JSON setOutput as QString
-QString JSON_Objects::setOutput(QString value, QString name){
-    QJsonObject outputObj;
-    outputObj.insert("id", "1");
-    outputObj.insert("jsonrpc", "2.0");
-    outputObj.insert("method", "setOutput");
-    QJsonObject paramsObj;
-    paramsObj.insert("name", name);
-    paramsObj.insert("value", value);
-    outputObj.insert("params", paramsObj);
-    QJsonDocument doc(outputObj);
-
-    QString result(doc.toJson(QJsonDocument::Compact));
-    return result;
-}
-//! [setOutput]
 
 //! [checkJsonMessage]
 //! Checks the incoming JSON message
@@ -98,25 +63,25 @@ void JSON_Objects::sendOutput(QString &message, QWebSocket &socket)
 {
     if(chck.checkTransponderID(readGateEvent(message)).compare(SIGNAL_GREEN) == 0){
         valueGreen = VAL_TRUE;
-        socket.sendTextMessage(setOutput(valueGreen, SIGNAL_GREEN));
+        socket.sendTextMessage(protocols.createJson_method_SetOutput(nId, valueGreen, SIGNAL_GREEN));
         valueYellow = VAL_FALSE;
-        socket.sendTextMessage(setOutput(valueYellow, SIGNAL_YELLOW));
+        socket.sendTextMessage(protocols.createJson_method_SetOutput(nId, valueYellow, SIGNAL_YELLOW));
         valueRed = VAL_FALSE;
-        socket.sendTextMessage(setOutput(valueRed, SIGNAL_RED));
+        socket.sendTextMessage(protocols.createJson_method_SetOutput(nId, valueRed, SIGNAL_RED));
     } else if(chck.checkTransponderID(readGateEvent(message)).compare(SIGNAL_YELLOW) == 0){
         valueGreen = VAL_FALSE;
-        socket.sendTextMessage(setOutput(valueGreen, SIGNAL_GREEN));
+        socket.sendTextMessage(protocols.createJson_method_SetOutput(nId, valueGreen, SIGNAL_GREEN));
         valueYellow = VAL_TRUE;
-        socket.sendTextMessage(setOutput(valueYellow, SIGNAL_YELLOW));
+        socket.sendTextMessage(protocols.createJson_method_SetOutput(nId, valueYellow, SIGNAL_YELLOW));
         valueRed = VAL_FALSE;
-        socket.sendTextMessage(setOutput(valueRed, SIGNAL_RED));
+        socket.sendTextMessage(protocols.createJson_method_SetOutput(nId, valueRed, SIGNAL_RED));
     } else if(chck.checkTransponderID(readGateEvent(message)).compare(SIGNAL_RED) == 0){
         valueGreen = VAL_FALSE;
-        socket.sendTextMessage(setOutput(valueGreen, SIGNAL_GREEN));
+        socket.sendTextMessage(protocols.createJson_method_SetOutput(nId, valueGreen, SIGNAL_GREEN));
         valueYellow = VAL_FALSE;
-        socket.sendTextMessage(setOutput(valueYellow, SIGNAL_YELLOW));
+        socket.sendTextMessage(protocols.createJson_method_SetOutput(nId, valueYellow, SIGNAL_YELLOW));
         valueRed = VAL_TRUE;
-        socket.sendTextMessage(setOutput(valueRed, SIGNAL_RED));
+        socket.sendTextMessage(protocols.createJson_method_SetOutput(nId, valueRed, SIGNAL_RED));
     } else {
         if(m_debug){
             qDebug() << "Unknows message input";
@@ -124,27 +89,3 @@ void JSON_Objects::sendOutput(QString &message, QWebSocket &socket)
     }
 }
 //! [sendOutput]
-
-//! [getFn_ID_0_Send_gate]
-//! @returns fn_ID_0_Send_gate
-QString JSON_Objects::getFn_ID_0_Send_gate() const
-{
-    return fn_ID_0_Send_gate;
-}
-//! [getFn_ID_0_Send_gate]
-
-//! [getFn_ID_0_Send_ioControl]
-//! @returns fn_ID_0_Send_ioControl
-QString JSON_Objects::getFn_ID_0_Send_ioControl() const
-{
-    return fn_ID_0_Send_ioControl;
-}
-//! [getFn_ID_0_Send_ioControl]
-
-//! [getFn_dir]
-//! @returns fn_dir
-QString JSON_Objects::getFn_dir() const
-{
-    return fn_dir;
-}
-//! [getFn_dir]

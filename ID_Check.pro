@@ -11,6 +11,7 @@ CONFIG -= app_bundle
 SOURCES += \
         check_uii.cpp \
         json_objects.cpp \
+        jsonprotocols.cpp \
         main.cpp \
         ws_client.cpp
 
@@ -22,4 +23,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     check_uii.h \
     json_objects.h \
+    jsonprotocols.h \
     ws_client.h
